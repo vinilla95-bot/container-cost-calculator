@@ -7,25 +7,69 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Black+Han+Sans&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:#0a0f1e;color:#e2e8f0;font-family:'IBM Plex Mono',monospace;min-height:100vh}
-  ::-webkit-scrollbar{width:4px;height:4px}
-  ::-webkit-scrollbar-track{background:#0a0f1e}
-  ::-webkit-scrollbar-thumb{background:#1e3a5f;border-radius:2px}
+  body{background:#f0f2f5;color:#1e293b;font-family:'Noto Sans KR',sans-serif;min-height:100vh;font-size:14px}
+  ::-webkit-scrollbar{width:6px;height:6px}
+  ::-webkit-scrollbar-track{background:#f0f2f5}
+  ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
   input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
-  .size-btn{background:transparent;border:1px solid #1e3a5f;color:#64748b;padding:6px 14px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:13px;transition:all .15s}
-  .size-btn:hover{border-color:#f97316;color:#f97316}
-  .size-btn.active{background:#f97316;border-color:#f97316;color:#fff;font-weight:600}
-  .tab-btn{background:transparent;border:none;border-bottom:2px solid transparent;color:#475569;padding:8px 20px;cursor:pointer;font-family:inherit;font-size:13px;transition:all .15s}
-  .tab-btn.active{border-color:#f97316;color:#f97316}
-  .row-hover:hover{background:rgba(249,115,22,0.04)}
-  table{width:100%;border-collapse:collapse;font-size:12px}
-  th{font-weight:400;color:#475569;padding:7px 12px}
-  td{padding:5px 12px;border-bottom:1px solid #0f1f35;color:#94a3b8}
-  input{background:transparent;border:none;border-bottom:1px solid #334155;color:#f1f5f9;font-size:13px;text-align:right;outline:none;font-family:inherit;width:100%;padding:2px 4px}
-  input:focus{border-color:#f97316}
+
+  .header{background:#fff;border-bottom:1px solid #e2e8f0;padding:0 32px;display:flex;align-items:center;height:56px;gap:0;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .header-logo{font-size:18px;font-weight:700;color:#ea580c;letter-spacing:-0.5px;margin-right:12px}
+  .header-sub{font-size:12px;color:#94a3b8;border-left:1px solid #e2e8f0;padding-left:12px}
+  .header-saved{margin-left:auto;font-size:12px;color:#16a34a;background:#f0fdf4;border:1px solid #bbf7d0;padding:4px 12px;border-radius:20px;transition:opacity .3s}
+
+  .layout{display:flex;height:calc(100vh - 56px)}
+
+  .sidebar{width:210px;background:#fff;border-right:1px solid #e2e8f0;display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+  .sidebar-section{padding:16px 16px 8px;font-size:11px;font-weight:600;color:#94a3b8;letter-spacing:1px}
+  .size-btn{display:block;width:100%;text-align:left;background:transparent;border:none;padding:8px 16px;font-family:inherit;font-size:14px;color:#475569;cursor:pointer;transition:all .12s;font-weight:500}
+  .size-btn:hover{background:#fff7ed;color:#ea580c}
+  .size-btn.active{background:#fff7ed;color:#ea580c;font-weight:700;border-right:3px solid #ea580c}
+
+  .sidebar-nav{border-top:1px solid #e2e8f0;padding:8px 0}
+  .nav-btn{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:transparent;border:none;padding:10px 16px;font-family:inherit;font-size:13px;color:#64748b;cursor:pointer;transition:all .12s}
+  .nav-btn:hover{background:#f8fafc;color:#1e293b}
+  .nav-btn.active{background:#fff7ed;color:#ea580c;font-weight:600}
+
+  .main{flex:1;overflow-y:auto;padding:24px 28px}
+
+  .card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .card-header{padding:12px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;background:#fafafa}
+  .card-title{font-size:13px;font-weight:600;color:#374151;display:flex;align-items:center;gap:8px}
+  .card-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+  table{width:100%;border-collapse:collapse}
+  th{font-size:12px;font-weight:500;color:#94a3b8;padding:8px 16px;text-align:left;background:#fafafa;border-bottom:1px solid #f1f5f9}
+  th.r{text-align:right}
+  td{padding:7px 16px;border-bottom:1px solid #f8fafc;font-size:13px;color:#374151}
+  td.r{text-align:right}
+  td.muted{color:#94a3b8}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:#fafafa}
+
+  .num-input{background:transparent;border:1px solid transparent;border-radius:4px;color:#1e293b;font-size:13px;text-align:right;outline:none;font-family:inherit;padding:3px 6px;width:100%;transition:all .15s}
+  .num-input:hover{border-color:#e2e8f0;background:#f8fafc}
+  .num-input:focus{border-color:#ea580c;background:#fff7ed}
+
+  .total-bar{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px 24px;display:flex;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.04);margin-bottom:20px}
+  .total-item{flex:1;text-align:center;padding:0 16px}
+  .total-item+.total-item{border-left:1px solid #e2e8f0}
+  .total-label{font-size:11px;color:#94a3b8;margin-bottom:5px;font-weight:500}
+  .total-value{font-size:19px;font-weight:600;color:#374151}
+  .total-grand .total-label{color:#ea580c;font-weight:700}
+  .total-grand .total-value{font-size:26px;color:#ea580c;font-weight:700}
+
+  .labor-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px}
+  .labor-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 18px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .labor-cat{font-size:11px;font-weight:600;margin-bottom:6px;letter-spacing:0.3px}
+  .labor-val{font-size:20px;font-weight:700;color:#1e293b}
+
+  .mat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+  .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500}
+  .save-check{font-size:12px;color:#16a34a;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -38,12 +82,14 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 const SIZES = ["3*3","3*4","3*5","3*6","3*7","3*8","3*9","3*10","3*11","3*12"];
 const CAT_LABELS = {steel:"철골 자재", interior:"내장 자재", paint_material:"페인트 자재"};
-const CAT_COLORS = {steel:"#f97316", interior:"#22d3ee", paint_material:"#a78bfa"};
-const LABOR_COLORS = {철골:"#f97316", 내장:"#22d3ee", 페인트:"#a78bfa"};
+const CAT_COLORS = {steel:"#f97316", interior:"#0ea5e9", paint_material:"#8b5cf6"};
+const CAT_BG    = {steel:"#fff7ed", interior:"#f0f9ff", paint_material:"#f5f3ff"};
+const LABOR_COLORS = {철골:"#f97316", 내장:"#0ea5e9", 페인트:"#8b5cf6"};
+const LABOR_BG    = {철골:"#fff7ed", 내장:"#f0f9ff", 페인트:"#f5f3ff"};
 
 async function sbFetch(table, query="") {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}${query}`, {
-    headers: {apikey:SUPABASE_KEY, Authorization:`Bearer ${SUPABASE_KEY}`}
+    headers:{apikey:SUPABASE_KEY, Authorization:`Bearer ${SUPABASE_KEY}`}
   });
   return res.json();
 }
@@ -81,34 +127,35 @@ function App() {
   const loadPresets = useCallback(async (sel) => {
     if(!allItems.length) return;
     setLoading(true);
-    const presets = await sbFetch("cost_presets", `?select=item_id,default_qty&container_size=eq.${encodeURIComponent(sel)}`);
+    const presets = await sbFetch("cost_presets",`?select=item_id,default_qty&container_size=eq.${encodeURIComponent(sel)}`);
     const map = {};
     (presets||[]).forEach(p => { map[p.item_id] = p.default_qty; });
     setRows(allItems.map(item => ({...item, qty: map[item.id] ?? 0})));
-    setLaborRows((allLabor||[]).filter(l => l.container_size === sel).map(l => ({...l})));
+    setLaborRows((allLabor||[]).filter(l => l.container_size===sel).map(l=>({...l})));
     setLoading(false);
   }, [allItems, allLabor]);
 
   useEffect(() => { if(allItems.length) loadPresets(size); }, [size, allItems]);
 
-  const updateQty = (id, val) => setRows(r => r.map(row => row.id===id ? {...row, qty:parseFloat(val)||0} : row));
+  const updateQty = (id, val) =>
+    setRows(r => r.map(row => row.id===id ? {...row, qty:parseFloat(val)||0} : row));
+
+  const flash = (id) => { setSavedId(id); setTimeout(()=>setSavedId(null),1800); };
 
   const updatePrice = async (id, val) => {
     const price = parseInt(val)||0;
     setRows(r => r.map(row => row.id===id ? {...row, unit_price:price} : row));
     setAllItems(a => a.map(item => item.id===id ? {...item, unit_price:price} : item));
-    await sbPatch("cost_items", `id=eq.${id}`, {unit_price:price, updated_at:new Date().toISOString()});
-    setSavedId(id);
-    setTimeout(()=>setSavedId(null), 1500);
+    await sbPatch("cost_items",`id=eq.${id}`,{unit_price:price, updated_at:new Date().toISOString()});
+    flash(id);
   };
 
   const updateLabor = async (id, val) => {
     const cost = parseInt(val)||0;
     setLaborRows(l => l.map(r => r.id===id ? {...r, base_cost:cost} : r));
     setAllLabor(a => a.map(r => r.id===id ? {...r, base_cost:cost} : r));
-    await sbPatch("cost_base_labor", `id=eq.${id}`, {base_cost:cost});
-    setSavedId("labor_"+id);
-    setTimeout(()=>setSavedId(null), 1500);
+    await sbPatch("cost_base_labor",`id=eq.${id}`,{base_cost:cost});
+    flash("l"+id);
   };
 
   const byCategory = {};
@@ -117,190 +164,200 @@ function App() {
     byCategory[row.category].push(row);
   });
 
-  const matTotal = rows.reduce((s,r)=>s+r.qty*r.unit_price, 0);
+  const matTotal   = rows.reduce((s,r)=>s+r.qty*r.unit_price, 0);
   const laborTotal = laborRows.reduce((s,r)=>s+r.base_cost, 0);
   const grandTotal = matTotal + laborTotal;
+  const paintMat   = rows.filter(r=>r.category==="paint_material").reduce((s,r)=>s+r.qty*r.unit_price,0);
 
   return (
     <div>
       {/* 헤더 */}
-      <div style={{borderBottom:"1px solid #1e3a5f",padding:"18px 28px",display:"flex",alignItems:"center",gap:16}}>
-        <div style={{fontFamily:"'Black Han Sans',sans-serif",fontSize:22,color:"#f97316",letterSpacing:2}}>원가계산기</div>
-        <div style={{fontSize:11,color:"#334155"}}>현대컨테이너 · COST CALCULATOR</div>
-        <div style={{marginLeft:"auto",fontSize:11,color:"#22d3ee",opacity:savedId?1:0,transition:"opacity .3s"}}>✓ 저장됨</div>
+      <div className="header">
+        <span className="header-logo">📦 현대컨테이너</span>
+        <span className="header-sub">원가계산기</span>
+        <div className="header-saved" style={{opacity:savedId?1:0}}>✓ 저장됨</div>
       </div>
 
-      <div style={{padding:"24px 28px"}}>
-        {/* 규격 선택 */}
-        <div style={{marginBottom:24}}>
-          <div style={{fontSize:11,color:"#475569",marginBottom:10,letterSpacing:2}}>CONTAINER SIZE</div>
-          <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-            {SIZES.map(s => (
-              <button key={s} className={`size-btn${size===s?" active":""}`} onClick={()=>setSize(s)}>{s}</button>
+      <div className="layout">
+        {/* 사이드바 */}
+        <div className="sidebar">
+          <div className="sidebar-section">컨테이너 규격</div>
+          {SIZES.map(s=>(
+            <button key={s} className={`size-btn${size===s?" active":""}`} onClick={()=>{ setSize(s); setActiveTab("calc"); }}>
+              {s} 컨테이너
+            </button>
+          ))}
+          <div style={{flex:1}}/>
+          <div className="sidebar-nav">
+            {[["calc","📊","원가 계산"],["items","🔧","자재 단가 수정"],["labor","👷","인건비 수정"]].map(([key,icon,label])=>(
+              <button key={key} className={`nav-btn${activeTab===key?" active":""}`} onClick={()=>setActiveTab(key)}>
+                <span>{icon}</span>{label}
+              </button>
             ))}
           </div>
         </div>
 
-        {/* 탭 */}
-        <div style={{borderBottom:"1px solid #1e3a5f",marginBottom:24}}>
-          {[["calc","원가 계산"],["items","자재 단가 수정"],["labor","인건비 수정"]].map(([key,label])=>(
-            <button key={key} className={`tab-btn${activeTab===key?" active":""}`} onClick={()=>setActiveTab(key)}>{label}</button>
-          ))}
-        </div>
+        {/* 메인 */}
+        <div className="main">
+          {loading ? (
+            <div style={{textAlign:"center",padding:"80px 0",color:"#94a3b8"}}>데이터 불러오는 중...</div>
+          ) : activeTab==="calc" ? (
+            <>
+              {/* 총계 바 */}
+              <div className="total-bar">
+                <div className="total-item">
+                  <div className="total-label">자재 합계</div>
+                  <div className="total-value">₩{fmt(matTotal)}</div>
+                </div>
+                <div className="total-item">
+                  <div className="total-label">인건비 합계</div>
+                  <div className="total-value">₩{fmt(laborTotal)}</div>
+                </div>
+                <div className="total-item">
+                  <div className="total-label">페인트 자재</div>
+                  <div className="total-value">₩{fmt(paintMat)}</div>
+                </div>
+                <div className="total-item total-grand">
+                  <div className="total-label">▶ {size} 기본 총 원가</div>
+                  <div className="total-value">₩{fmt(grandTotal)}</div>
+                </div>
+              </div>
 
-        {loading ? (
-          <div style={{color:"#334155",fontSize:13,padding:"60px 0",textAlign:"center"}}>데이터 로딩 중...</div>
-        ) : activeTab==="calc" ? (
-          <>
-            {/* 자재 카테고리별 */}
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:16,marginBottom:20}}>
-              {Object.entries(byCategory).map(([cat,items])=>{
-                const sub = items.reduce((s,r)=>s+r.qty*r.unit_price,0);
-                return (
-                  <div key={cat} style={{background:"#0d1729",border:`1px solid ${CAT_COLORS[cat]}22`,borderRadius:8,overflow:"hidden"}}>
-                    <div style={{background:`${CAT_COLORS[cat]}15`,padding:"10px 14px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                      <span style={{fontSize:12,color:CAT_COLORS[cat],fontWeight:600}}>{CAT_LABELS[cat]}</span>
-                      <span style={{fontSize:13,color:CAT_COLORS[cat]}}>₩{fmt(sub)}</span>
-                    </div>
-                    <table>
-                      <thead>
-                        <tr style={{borderBottom:"1px solid #1e3a5f"}}>
-                          <th style={{textAlign:"left"}}>품목</th>
-                          <th style={{textAlign:"right",width:60}}>수량</th>
-                          <th style={{textAlign:"right",width:80}}>단가</th>
-                          <th style={{textAlign:"right",width:90}}>합계</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {items.filter(r=>r.qty>0).map(row=>(
-                          <tr key={row.id} className="row-hover">
-                            <td>{row.name}</td>
-                            <td style={{textAlign:"right"}}>
-                              <input type="number" value={row.qty} style={{width:50}} onChange={e=>updateQty(row.id,e.target.value)}/>
-                            </td>
-                            <td style={{textAlign:"right",color:"#64748b"}}>{fmt(row.unit_price)}</td>
-                            <td style={{textAlign:"right",color:"#e2e8f0"}}>{fmt(row.qty*row.unit_price)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* 인건비 박스 */}
-            <div style={{background:"#0d1729",border:"1px solid #1e3a5f",borderRadius:8,marginBottom:20,overflow:"hidden"}}>
-              <div style={{padding:"10px 14px",borderBottom:"1px solid #1e3a5f",fontSize:12,color:"#64748b",letterSpacing:1}}>인건비 — {size}</div>
-              <div style={{display:"flex"}}>
+              {/* 인건비 */}
+              <div className="labor-grid">
                 {["철골","내장","페인트"].map(cat=>{
                   const l = laborRows.find(r=>r.category===cat);
                   return (
-                    <div key={cat} style={{flex:1,padding:"16px 20px",borderRight:"1px solid #1e3a5f"}}>
-                      <div style={{fontSize:11,color:LABOR_COLORS[cat],marginBottom:6}}>{cat} 인건비</div>
-                      <div style={{fontSize:20,color:"#f1f5f9",fontWeight:600}}>₩{l?fmt(l.base_cost):"-"}</div>
+                    <div className="labor-card" key={cat}>
+                      <div className="labor-cat" style={{color:LABOR_COLORS[cat]}}>{cat} 인건비</div>
+                      <div className="labor-val">₩{l ? fmt(l.base_cost) : "해당없음"}</div>
                     </div>
                   );
                 })}
               </div>
-            </div>
 
-            {/* 총계 */}
-            <div style={{background:"#0d1729",border:"1px solid #f9731633",borderRadius:8,padding:"20px 28px"}}>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr auto 1fr",gap:0,alignItems:"center"}}>
-                <div style={{textAlign:"center"}}>
-                  <div style={{fontSize:11,color:"#475569",marginBottom:6}}>자재 합계</div>
-                  <div style={{fontSize:18,color:"#e2e8f0"}}>₩{fmt(matTotal)}</div>
-                </div>
-                <div style={{textAlign:"center"}}>
-                  <div style={{fontSize:11,color:"#475569",marginBottom:6}}>인건비 합계</div>
-                  <div style={{fontSize:18,color:"#e2e8f0"}}>₩{fmt(laborTotal)}</div>
-                </div>
-                <div style={{textAlign:"center"}}>
-                  <div style={{fontSize:11,color:"#475569",marginBottom:6}}>페인트 자재</div>
-                  <div style={{fontSize:18,color:"#e2e8f0"}}>₩{fmt(rows.filter(r=>r.category==="paint_material").reduce((s,r)=>s+r.qty*r.unit_price,0))}</div>
-                </div>
-                <div style={{background:"#1e3a5f",width:2,height:48,margin:"0 24px"}}/>
-                <div style={{textAlign:"center"}}>
-                  <div style={{fontSize:11,color:"#f97316",marginBottom:6,letterSpacing:2}}>총 원가</div>
-                  <div style={{fontSize:30,color:"#f97316",fontWeight:600}}>₩{fmt(grandTotal)}</div>
-                </div>
+              {/* 자재 카테고리별 */}
+              <div className="mat-grid">
+                {Object.entries(byCategory).map(([cat,items])=>{
+                  const sub = items.reduce((s,r)=>s+r.qty*r.unit_price,0);
+                  const activeItems = items.filter(r=>r.qty>0);
+                  return (
+                    <div className="card" key={cat}>
+                      <div className="card-header">
+                        <div className="card-title">
+                          <span className="card-dot" style={{background:CAT_COLORS[cat]}}/>
+                          {CAT_LABELS[cat]}
+                        </div>
+                        <span style={{fontSize:14,fontWeight:700,color:CAT_COLORS[cat]}}>₩{fmt(sub)}</span>
+                      </div>
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>품목</th>
+                            <th className="r" style={{width:55}}>수량</th>
+                            <th className="r" style={{width:80}}>단가</th>
+                            <th className="r" style={{width:90}}>합계</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {activeItems.length===0
+                            ? <tr><td colSpan="4" style={{textAlign:"center",color:"#cbd5e1",padding:"20px"}}>해당 규격 데이터 없음</td></tr>
+                            : activeItems.map(row=>(
+                              <tr key={row.id}>
+                                <td>{row.name}</td>
+                                <td className="r">
+                                  <input type="number" className="num-input" value={row.qty}
+                                    style={{width:50}} onChange={e=>updateQty(row.id,e.target.value)}/>
+                                </td>
+                                <td className="r muted">{fmt(row.unit_price)}</td>
+                                <td className="r" style={{fontWeight:600}}>{fmt(row.qty*row.unit_price)}</td>
+                              </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
-          </>
-        ) : activeTab==="items" ? (
-          <div style={{background:"#0d1729",borderRadius:8,overflow:"hidden",border:"1px solid #1e3a5f"}}>
-            <div style={{padding:"10px 16px",borderBottom:"1px solid #1e3a5f",fontSize:11,color:"#475569",letterSpacing:2}}>
-              단가 수정 후 Enter → 자동 저장 (모든 규격 즉시 반영)
-            </div>
-            <table>
-              <thead>
-                <tr style={{borderBottom:"1px solid #1e3a5f"}}>
-                  <th style={{textAlign:"left",width:110}}>카테고리</th>
-                  <th style={{textAlign:"left"}}>품목</th>
-                  <th style={{textAlign:"center",width:50}}>단위</th>
-                  <th style={{textAlign:"right",width:150}}>단가 (원)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {allItems.map(item=>(
-                  <tr key={item.id} className="row-hover">
-                    <td>
-                      <span style={{fontSize:11,color:CAT_COLORS[item.category],background:`${CAT_COLORS[item.category]}15`,padding:"2px 8px",borderRadius:3}}>
-                        {CAT_LABELS[item.category]}
-                      </span>
-                    </td>
-                    <td>{item.name}</td>
-                    <td style={{textAlign:"center",color:"#475569"}}>{item.unit}</td>
-                    <td style={{textAlign:"right"}}>
-                      <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:6}}>
-                        {savedId===item.id && <span style={{fontSize:10,color:"#22d3ee"}}>✓</span>}
-                        <input type="number" defaultValue={item.unit_price} style={{width:120}}
-                          onBlur={e=>updatePrice(item.id,e.target.value)}
-                          onKeyDown={e=>e.key==="Enter"&&e.target.blur()}/>
-                      </div>
-                    </td>
+            </>
+          ) : activeTab==="items" ? (
+            <div className="card">
+              <div className="card-header">
+                <div className="card-title">🔧 자재 단가 관리</div>
+                <span style={{fontSize:12,color:"#94a3b8"}}>Enter 또는 클릭 이동 시 자동 저장 · 모든 규격 즉시 반영</span>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{width:110}}>카테고리</th>
+                    <th>품목명</th>
+                    <th className="r" style={{width:50}}>단위</th>
+                    <th className="r" style={{width:160}}>단가 (원)</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div style={{background:"#0d1729",borderRadius:8,overflow:"hidden",border:"1px solid #1e3a5f"}}>
-            <div style={{padding:"10px 16px",borderBottom:"1px solid #1e3a5f",fontSize:11,color:"#475569",letterSpacing:2}}>
-              인건비 수정 후 Enter → 자동 저장
+                </thead>
+                <tbody>
+                  {allItems.map(item=>(
+                    <tr key={item.id}>
+                      <td>
+                        <span className="badge" style={{color:CAT_COLORS[item.category],background:CAT_BG[item.category]}}>
+                          {CAT_LABELS[item.category]}
+                        </span>
+                      </td>
+                      <td>{item.name}</td>
+                      <td className="r muted">{item.unit}</td>
+                      <td className="r">
+                        <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:6}}>
+                          {savedId===item.id && <span className="save-check">✓ 저장</span>}
+                          <input type="number" className="num-input" defaultValue={item.unit_price}
+                            style={{width:130}}
+                            onBlur={e=>updatePrice(item.id,e.target.value)}
+                            onKeyDown={e=>e.key==="Enter"&&e.target.blur()}/>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            <table>
-              <thead>
-                <tr style={{borderBottom:"1px solid #1e3a5f"}}>
-                  <th style={{textAlign:"left",width:100}}>카테고리</th>
-                  <th style={{textAlign:"left"}}>규격</th>
-                  <th style={{textAlign:"right",width:160}}>인건비 (원)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {allLabor.map(l=>(
-                  <tr key={l.id} className="row-hover">
-                    <td>
-                      <span style={{fontSize:11,color:LABOR_COLORS[l.category],background:`${LABOR_COLORS[l.category]}15`,padding:"2px 8px",borderRadius:3}}>
-                        {l.category}
-                      </span>
-                    </td>
-                    <td>{l.container_size}</td>
-                    <td style={{textAlign:"right"}}>
-                      <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:6}}>
-                        {savedId==="labor_"+l.id && <span style={{fontSize:10,color:"#22d3ee"}}>✓</span>}
-                        <input type="number" defaultValue={l.base_cost} style={{width:130}}
-                          onBlur={e=>updateLabor(l.id,e.target.value)}
-                          onKeyDown={e=>e.key==="Enter"&&e.target.blur()}/>
-                      </div>
-                    </td>
+          ) : (
+            <div className="card">
+              <div className="card-header">
+                <div className="card-title">👷 인건비 관리</div>
+                <span style={{fontSize:12,color:"#94a3b8"}}>Enter 또는 클릭 이동 시 자동 저장</span>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{width:100}}>카테고리</th>
+                    <th>규격</th>
+                    <th className="r" style={{width:180}}>인건비 (원)</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody>
+                  {allLabor.map(l=>(
+                    <tr key={l.id}>
+                      <td>
+                        <span className="badge" style={{color:LABOR_COLORS[l.category],background:LABOR_BG[l.category]}}>
+                          {l.category}
+                        </span>
+                      </td>
+                      <td>{l.container_size} 컨테이너</td>
+                      <td className="r">
+                        <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:6}}>
+                          {savedId==="l"+l.id && <span className="save-check">✓ 저장</span>}
+                          <input type="number" className="num-input" defaultValue={l.base_cost}
+                            style={{width:140}}
+                            onBlur={e=>updateLabor(l.id,e.target.value)}
+                            onKeyDown={e=>e.key==="Enter"&&e.target.blur()}/>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
